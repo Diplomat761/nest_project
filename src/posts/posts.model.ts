@@ -1,18 +1,22 @@
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
   Model,
   Table,
 } from "sequelize-typescript";
+import { Group } from "src/groups/groups.model";
+import { PostGroups } from "src/groups/post-groups.model";
+import { Image } from "src/images/images.model";
 import { User } from "src/users/users.model";
 
 interface PostCreationAttrs {
   title: string;
   content: string;
   userId: number;
-  image: string;
+  imageId: number;
 }
 @Table({ tableName: "posts" })
 export class Post extends Model<Post, PostCreationAttrs> {
@@ -30,8 +34,9 @@ export class Post extends Model<Post, PostCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   content: string;
 
-  @Column({ type: DataType.STRING })
-  image: string;
+  @ForeignKey(() => Image)
+  @Column({ type: DataType.INTEGER })
+  imageId: number;
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
@@ -39,4 +44,10 @@ export class Post extends Model<Post, PostCreationAttrs> {
 
   @BelongsTo(() => User)
   author: User;
+
+  @BelongsToMany(() => Group, () => PostGroups)
+  roles: Group[];
+
+  @BelongsTo(() => Image)
+  image: Image;
 }

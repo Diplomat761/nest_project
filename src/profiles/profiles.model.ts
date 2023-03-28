@@ -1,5 +1,6 @@
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
@@ -7,6 +8,8 @@ import {
   Model,
   Table,
 } from "sequelize-typescript";
+import { Group } from "src/groups/groups.model";
+import { PostGroups } from "src/groups/post-groups.model";
 import { User } from "src/users/users.model";
 
 interface ProfileCreationAttrs {

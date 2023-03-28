@@ -14,6 +14,11 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { ProfilesModule } from "./profiles/profiles.module";
 import * as path from "path";
 import { Profile } from "./profiles/profiles.model";
+import { GroupsModule } from "./groups/groups.module";
+import { Group } from "./groups/groups.model";
+import { PostGroups } from "./groups/post-groups.model";
+import { ImagesModule } from "./images/images.module";
+import { Image } from "./images/images.model";
 
 @Module({
   controllers: [],
@@ -32,7 +37,7 @@ import { Profile } from "./profiles/profiles.model";
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, UserRoles, Post, Profile],
+      models: [User, Role, UserRoles, Post, Profile, Group, PostGroups, Image],
       autoLoadModels: true,
     }),
     UsersModule,
@@ -41,6 +46,8 @@ import { Profile } from "./profiles/profiles.model";
     PostsModule,
     FilesModule,
     ProfilesModule,
+    GroupsModule,
+    ImagesModule,
   ],
 })
 export class AppModule {}
