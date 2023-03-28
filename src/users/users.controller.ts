@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
+  Param,
   Post,
   UseGuards,
   UsePipes,
@@ -36,6 +38,15 @@ export class UsersController {
   @Get()
   getAll() {
     return this.userService.getAllUsers();
+  }
+
+  @ApiOperation({ summary: "Получение одного пользователяй" })
+  @ApiResponse({ status: 200 })
+  @Roles("ADMIN")
+  @UseGuards(RolesGuard)
+  @Get(":id")
+  getOneUser(@Param("id") id: number) {
+    return this.userService.getUserById(id);
   }
 
   @ApiOperation({ summary: "Выдача ролей" })

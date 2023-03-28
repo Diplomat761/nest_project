@@ -1,9 +1,27 @@
+import {
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MaxLength,
+  Min,
+} from "class-validator";
+
 export class createProfileDto {
+  @IsNotEmpty()
+  @MaxLength(50)
   readonly firstName: string;
 
+  @IsNotEmpty()
+  @MaxLength(50)
   readonly lastName: string;
 
-  readonly dateOfBirth: string;
+  @IsInt()
+  @Min(1)
+  readonly age: number;
 
-  readonly phoneNumber: number;
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^[0-9]{11}$/)
+  readonly phoneNumber: string;
 }
