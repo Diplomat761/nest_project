@@ -32,7 +32,7 @@ export class Post extends Model<Post, PostCreationAttrs> {
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   uniqueName: string;
 
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false })
   title: string;
 
   @Column({ type: DataType.STRING, allowNull: false })

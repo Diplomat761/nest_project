@@ -28,7 +28,7 @@ export class Profile extends Model<Profile, ProfileCreationAttrs> {
   })
   id: number;
 
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false })
   firstName: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
