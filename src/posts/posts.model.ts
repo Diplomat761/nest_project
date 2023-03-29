@@ -46,7 +46,7 @@ export class Post extends Model<Post, PostCreationAttrs> {
   author: User;
 
   @BelongsToMany(() => Group, () => PostGroups)
-  roles: Group[];
+  groups: Group[];
 
   @BelongsTo(() => Image)
   image: Image;

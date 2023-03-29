@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { PostsController } from "./posts.controller";
 import { SequelizeModule } from "@nestjs/sequelize";
@@ -9,6 +9,7 @@ import { GroupsModule } from "src/groups/groups.module";
 import { Group } from "src/groups/groups.model";
 import { PostGroups } from "src/groups/post-groups.model";
 import { Image } from "src/images/images.model";
+import { AuthModule } from "src/auth/auth.module";
 
 @Module({
   providers: [PostsService],
@@ -17,6 +18,7 @@ import { Image } from "src/images/images.model";
     SequelizeModule.forFeature([User, Post, Group, PostGroups, Image]),
     FilesModule,
     GroupsModule,
+    forwardRef(() => AuthModule),
   ],
 })
 export class PostsModule {}
