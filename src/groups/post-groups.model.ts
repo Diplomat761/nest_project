@@ -1,7 +1,9 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -25,4 +27,10 @@ export class PostGroups extends Model<PostGroups> {
   @ForeignKey(() => Post)
   @Column({ type: DataType.INTEGER })
   postId: number;
+
+  @BelongsTo(() => Post)
+  posts: Post[];
+
+  @BelongsTo(() => Group)
+  groups: Group[];
 }

@@ -13,6 +13,7 @@ import { Image } from "src/images/images.model";
 import { User } from "src/users/users.model";
 
 interface PostCreationAttrs {
+  uniqueName: string;
   title: string;
   content: string;
   userId: number;
@@ -27,6 +28,9 @@ export class Post extends Model<Post, PostCreationAttrs> {
     primaryKey: true,
   })
   id: number;
+
+  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  uniqueName: string;
 
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   title: string;

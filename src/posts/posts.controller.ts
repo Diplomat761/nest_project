@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
@@ -32,6 +33,20 @@ export class PostsController {
   @Get()
   getAll() {
     return this.postService.getAllPosts();
+  }
+
+  @Get("/unique")
+  getUnique(@Query() { name }: { name: string }) {
+    console.log(name);
+
+    return this.postService.getUnique(name);
+  }
+
+  @Get("/groups")
+  fiendByGroup(@Query() { groupId }: { groupId: number }) {
+    console.log(groupId);
+
+    return this.postService.fiendByGroup(groupId);
   }
 
   @Roles("ADMIN")
