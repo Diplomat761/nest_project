@@ -27,24 +27,12 @@ export class PostsService {
     return posts;
   }
 
-  async getUnique(name: string) {
-    const unique = await this.postRepository.findOne({
-      where: { uniqueName: name },
-      include: { all: true },
-    });
-    return unique;
-  }
-
-  async fiendByGroup(groupId: number) {
-    return await this.groupService.getPostByGroup(groupId);
-  }
-
   async getPostById(id: number) {
-    const user = await this.postRepository.findOne({
+    const post = await this.postRepository.findOne({
       where: { id },
       include: { all: true },
     });
-    return user;
+    return post;
   }
 
   async updatePost(id: number, dto: CreatePostDto) {
@@ -60,5 +48,17 @@ export class PostsService {
     const post = await this.postRepository.findOne({ where: { id } });
     await post.destroy();
     return post;
+  }
+
+  async getUnique(name: string) {
+    const unique = await this.postRepository.findOne({
+      where: { uniqueName: name },
+      include: { all: true },
+    });
+    return unique;
+  }
+
+  async fiendByGroup(groupId: number) {
+    return await this.groupService.getPostByGroup(groupId);
   }
 }

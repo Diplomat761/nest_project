@@ -8,8 +8,6 @@ import {
   Model,
   Table,
 } from "sequelize-typescript";
-import { Group } from "src/groups/groups.model";
-import { PostGroups } from "src/groups/post-groups.model";
 import { User } from "src/users/users.model";
 
 interface ProfileCreationAttrs {
@@ -37,13 +35,13 @@ export class Profile extends Model<Profile, ProfileCreationAttrs> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   age: number;
 
-  @Column({ type: DataType.STRING, allowNull: true })
+  @Column({ type: DataType.STRING, allowNull: false })
   phoneNumber: string;
 
   @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, allowNull: false, unique: true })
   userId: number;
 
   @BelongsTo(() => User)
-  author: User;
+  user: User;
 }

@@ -35,24 +35,10 @@ export class PostsController {
     return this.postService.getAllPosts();
   }
 
-  @Get("/unique")
-  getUnique(@Query() { name }: { name: string }) {
-    console.log(name);
-
-    return this.postService.getUnique(name);
-  }
-
-  @Get("/groups")
-  fiendByGroup(@Query() { groupId }: { groupId: number }) {
-    console.log(groupId);
-
-    return this.postService.fiendByGroup(groupId);
-  }
-
   @Roles("ADMIN")
   @UseGuards(RolesGuard)
   @Get(":id")
-  getOneUser(@Param("id") id: number) {
+  getOnePost(@Param("id") id: number) {
     return this.postService.getPostById(id);
   }
   @Roles("ADMIN")
@@ -67,5 +53,18 @@ export class PostsController {
   @Delete(":id")
   deletePost(@Param("id") id: number) {
     return this.postService.deletePost(id);
+  }
+
+  @Get("/unique")
+  getUnique(@Query() { name }: { name: string }) {
+    console.log(name);
+
+    return this.postService.getUnique(name);
+  }
+  @Roles("ADMIN")
+  @UseGuards(RolesGuard)
+  @Get("/groups")
+  fiendByGroup(@Query() { groupId }: { groupId: number }) {
+    return this.postService.fiendByGroup(groupId);
   }
 }
