@@ -10,14 +10,17 @@ import { Group } from "src/groups/groups.model";
 import { PostGroups } from "src/groups/post-groups.model";
 import { Image } from "src/images/images.model";
 import { AuthModule } from "src/auth/auth.module";
+import { ImagesModule } from "src/images/images.module";
+import { ImagesService } from "src/images/images.service";
 
 @Module({
-  providers: [PostsService],
+  providers: [PostsService, ImagesService],
   controllers: [PostsController],
   imports: [
     SequelizeModule.forFeature([User, Post, Group, PostGroups, Image]),
     FilesModule,
     GroupsModule,
+    ImagesModule,
     forwardRef(() => AuthModule),
   ],
 })

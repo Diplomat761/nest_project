@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Put,
   UploadedFile,
   UseInterceptors,
 } from "@nestjs/common";
@@ -25,4 +27,14 @@ export class ImagesController {
   getOneImage(@Param("id") id: number) {
     return this.imageService.getImageById(id);
   }
+
+  @Put(":id")
+  updatePost(@Param("id") id: number, @Body() dto: CreateImageDto) {
+    return this.imageService.updateImage(id, dto);
+  }
+
+  // @Delete()
+  // deleteImage() {
+  //   return this.imageService.deleteByTime();
+  // }
 }

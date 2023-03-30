@@ -13,8 +13,8 @@ export class ImagesService {
 
   async create(dto: CreateImageDto, image: any) {
     const fileName = await this.fileService.createFile(image);
-    const post = await this.imageRepository.create({ ...dto, url: fileName });
-    return post;
+    const img = await this.imageRepository.create({ ...dto, url: fileName });
+    return image;
   }
 
   async getImageById(id: number) {
@@ -24,4 +24,21 @@ export class ImagesService {
     });
     return image;
   }
+
+  async updateImage(id: number, { tableName, recordId }) {
+    const updatedImage = await this.imageRepository.update(
+      { tableName, recordId },
+      {
+        returning: true,
+        where: { id },
+      }
+    );
+    return updatedImage;
+  }
+
+  // async deleteByTime() {
+  //   const todayData = new Date();
+  //   const image = await this.imageRepository.findAll({ where: { id } });
+  //   await image.destroy();
+  // }
 }

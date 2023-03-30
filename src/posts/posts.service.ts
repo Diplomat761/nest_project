@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { GroupsService } from "src/groups/groups.service";
+import { ImagesService } from "src/images/images.service";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { Post } from "./posts.model";
 
@@ -8,17 +9,23 @@ import { Post } from "./posts.model";
 export class PostsService {
   constructor(
     @InjectModel(Post) private postRepository: typeof Post,
-    private groupService: GroupsService
+    private groupService: GroupsService,
+    private imageService: ImagesService
   ) {}
 
   async create(dto: CreatePostDto) {
     const post = await this.postRepository.create(dto);
     console.log(post);
+    const a = {
+      tableName: "post",
+      recordId: post.dataValues.id,
+    };
     const c = {
       postId: post.dataValues.id,
       groupId: dto.groupId,
     };
     const PostGroup = await this.groupService.createPostGroup(c);
+    const updateImg = await this.imageService.updateImage(dto.imageId, a);
     return post;
   }
 
