@@ -16,7 +16,7 @@ export class Image extends Model<Image, ImageCreationAttrs> {
   })
   id: number;
 
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false })
   url: string;
 
   @Column({ type: DataType.STRING, allowNull: true })

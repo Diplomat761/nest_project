@@ -11,6 +11,7 @@ import {
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CreateImageDto } from "./dto/create-image.dto";
+import { UpdateImageDto } from "./dto/update-image.dto";
 import { ImagesService } from "./images.service";
 
 @Controller("images")
@@ -20,7 +21,13 @@ export class ImagesController {
   @Post()
   @UseInterceptors(FileInterceptor("image"))
   createPost(@Body() dto: CreateImageDto, @UploadedFile() image) {
+    console.log(image);
+
     return this.imageService.create(dto, image);
+  }
+  @Get()
+  getAll() {
+    return this.imageService.getAllImages();
   }
 
   @Get(":id")
@@ -29,12 +36,17 @@ export class ImagesController {
   }
 
   @Put(":id")
-  updatePost(@Param("id") id: number, @Body() dto: CreateImageDto) {
+  updateImage(@Param("id") id: number, @Body() dto: UpdateImageDto) {
     return this.imageService.updateImage(id, dto);
   }
 
-  // @Delete()
-  // deleteImage() {
-  //   return this.imageService.deleteByTime();
-  // }
+  @Delete()
+  deleteImage() {
+    return this.imageService.deleteByTime();
+  }
+
+  @Delete("/unused")
+  async deleteUnusedImages(): Promise<void> {
+    await this.imageService.deleteUnusedImages();
+  }
 }

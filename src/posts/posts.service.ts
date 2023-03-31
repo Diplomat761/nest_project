@@ -15,7 +15,6 @@ export class PostsService {
 
   async create(dto: CreatePostDto) {
     const post = await this.postRepository.create(dto);
-    console.log(post);
     const a = {
       tableName: "post",
       recordId: post.dataValues.id,
@@ -24,8 +23,8 @@ export class PostsService {
       postId: post.dataValues.id,
       groupId: dto.groupId,
     };
-    const PostGroup = await this.groupService.createPostGroup(c);
-    const updateImg = await this.imageService.updateImage(dto.imageId, a);
+    await this.groupService.createPostGroup(c);
+    await this.imageService.updateImage(dto.imageId, a);
     return post;
   }
 
