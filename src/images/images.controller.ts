@@ -21,8 +21,6 @@ export class ImagesController {
   @Post()
   @UseInterceptors(FileInterceptor("image"))
   createPost(@Body() dto: CreateImageDto, @UploadedFile() image) {
-    console.log(image);
-
     return this.imageService.create(dto, image);
   }
   @Get()
