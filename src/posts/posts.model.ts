@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import {
   BelongsTo,
   BelongsToMany,
@@ -21,6 +22,7 @@ interface PostCreationAttrs {
 }
 @Table({ tableName: "posts" })
 export class Posts extends Model<Posts, PostCreationAttrs> {
+  @ApiProperty({ example: "1", description: "Уникальный id" })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -29,22 +31,33 @@ export class Posts extends Model<Posts, PostCreationAttrs> {
   })
   id: number;
 
+  @ApiProperty({
+    example: "main-hero-text",
+    description: "Уникальное название для поиска",
+  })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   uniqueName: string;
 
+  @ApiProperty({ example: "Привет мир!", description: "Заголовок" })
   @Column({ type: DataType.STRING, allowNull: false })
   title: string;
 
+  @ApiProperty({
+    example: "Это мой первый пост!",
+    description: "Текстовый блок",
+  })
   @Column({ type: DataType.STRING, allowNull: false })
   content: string;
 
-  @ForeignKey(() => Image)
-  @Column({ type: DataType.INTEGER })
-  imageId: number;
-
+  @ApiProperty({ example: "1", description: "Автор поста" })
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
   userId: number;
+
+  @ApiProperty({ example: "2", description: "Картинка поста" })
+  @ForeignKey(() => Image)
+  @Column({ type: DataType.INTEGER })
+  imageId: number;
 
   @BelongsTo(() => User)
   author: User;
