@@ -7,7 +7,7 @@ import {
   Model,
   Table,
 } from "sequelize-typescript";
-import { Post } from "src/posts/posts.model";
+import { Posts } from "src/posts/posts.model";
 import { Group } from "./groups.model";
 
 @Table({ tableName: "post_groups", createdAt: false, updatedAt: false })
@@ -24,12 +24,12 @@ export class PostGroups extends Model<PostGroups> {
   @Column({ type: DataType.INTEGER })
   groupId: number;
 
-  @ForeignKey(() => Post)
+  @ForeignKey(() => Posts)
   @Column({ type: DataType.INTEGER })
   postId: number;
 
-  @BelongsTo(() => Post)
-  posts: Post[];
+  @BelongsTo(() => Posts)
+  posts: Posts[];
 
   @BelongsTo(() => Group)
   groups: Group[];

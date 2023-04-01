@@ -5,7 +5,7 @@ import {
   Model,
   Table,
 } from "sequelize-typescript";
-import { Post } from "src/posts/posts.model";
+import { Posts } from "src/posts/posts.model";
 import { PostGroups } from "./post-groups.model";
 
 interface GroupCreationAttrs {
@@ -24,6 +24,6 @@ export class Group extends Model<Group, GroupCreationAttrs> {
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   keyword: string;
 
-  @BelongsToMany(() => Post, () => PostGroups)
-  posts: Post[];
+  @BelongsToMany(() => Posts, () => PostGroups)
+  posts: Posts[];
 }

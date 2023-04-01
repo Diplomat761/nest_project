@@ -2,7 +2,7 @@ import { forwardRef, Module } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { PostsController } from "./posts.controller";
 import { SequelizeModule } from "@nestjs/sequelize";
-import { Post } from "./posts.model";
+import { Posts } from "./posts.model";
 import { User } from "src/users/users.model";
 import { FilesModule } from "src/files/files.module";
 import { GroupsModule } from "src/groups/groups.module";
@@ -17,7 +17,7 @@ import { ImagesService } from "src/images/images.service";
   providers: [PostsService, ImagesService],
   controllers: [PostsController],
   imports: [
-    SequelizeModule.forFeature([User, Post, Group, PostGroups, Image]),
+    SequelizeModule.forFeature([User, Posts, Group, PostGroups, Image]),
     FilesModule,
     GroupsModule,
     ImagesModule,

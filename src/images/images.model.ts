@@ -1,5 +1,5 @@
 import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
-import { Post } from "src/posts/posts.model";
+import { Posts } from "src/posts/posts.model";
 
 interface ImageCreationAttrs {
   url: string;
@@ -25,6 +25,6 @@ export class Image extends Model<Image, ImageCreationAttrs> {
   @Column({ type: DataType.INTEGER, allowNull: true })
   recordId: number;
 
-  @HasMany(() => Post)
-  posts: Post[];
+  @HasMany(() => Posts)
+  posts: Posts[];
 }

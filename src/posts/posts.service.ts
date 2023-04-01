@@ -3,12 +3,12 @@ import { InjectModel } from "@nestjs/sequelize";
 import { GroupsService } from "src/groups/groups.service";
 import { ImagesService } from "src/images/images.service";
 import { CreatePostDto } from "./dto/create-post.dto";
-import { Post } from "./posts.model";
+import { Posts } from "./posts.model";
 
 @Injectable()
 export class PostsService {
   constructor(
-    @InjectModel(Post) private postRepository: typeof Post,
+    @InjectModel(Posts) private postRepository: typeof Posts,
     private groupService: GroupsService,
     private imageService: ImagesService
   ) {}
@@ -33,7 +33,7 @@ export class PostsService {
     return posts;
   }
 
-  async getPostById(id: number) {
+  async getPostById(id: any) {
     const post = await this.postRepository.findOne({
       where: { id },
       include: { all: true },

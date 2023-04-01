@@ -16,7 +16,7 @@ export class ImagesService {
     const fileName = await this.fileService.createFile(image);
     const img = await this.imageRepository.create({ ...dto, url: fileName });
 
-    return image;
+    return fileName;
   }
 
   async getAllImages() {

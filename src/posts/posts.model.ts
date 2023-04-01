@@ -20,7 +20,7 @@ interface PostCreationAttrs {
   imageId: number;
 }
 @Table({ tableName: "posts" })
-export class Post extends Model<Post, PostCreationAttrs> {
+export class Posts extends Model<Posts, PostCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
     unique: true,

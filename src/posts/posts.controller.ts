@@ -41,7 +41,7 @@ export class PostsController {
 
   @Roles("ADMIN")
   @UseGuards(RolesGuard)
-  @Get(":id")
+  @Get("/id/:id")
   getOnePost(@Param("id") id: number) {
     return this.postService.getPostById(id);
   }
@@ -59,7 +59,7 @@ export class PostsController {
     return this.postService.deletePost(id);
   }
 
-  @Get("/unique")
+  @Get("unique")
   getUnique(@Query() { name }: { name: string }) {
     console.log(name);
 
@@ -67,7 +67,7 @@ export class PostsController {
   }
   @Roles("ADMIN")
   @UseGuards(RolesGuard)
-  @Get("/groups")
+  @Get("groups")
   fiendByGroup(@Query() { groupId }: { groupId: number }) {
     return this.postService.fiendByGroup(groupId);
   }
