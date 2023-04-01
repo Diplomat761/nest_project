@@ -16,7 +16,7 @@ export class AuthService {
     private userService: UsersService,
     private jwtServise: JwtService
   ) {}
-
+  // Входим в аккаунт
   async login(userDto: createUserDto) {
     const user = await this.validateUser(userDto);
     return this.generateToken(user);
@@ -44,16 +44,18 @@ export class AuthService {
     // });
     return this.generateToken(user);
   }
-
+  // Генерируем токен
   private async generateToken(user: User) {
     const payload = { email: user.email, id: user.id, roles: user.roles };
     return {
       token: this.jwtServise.sign(payload),
     };
   }
-
+  // Проверка пользователя по email и паролю
   private async validateUser(userDto: createUserDto) {
+    // Получение пользователя из базы данных по email
     const user = await this.userService.getUserByEmail(userDto.email);
+    // Проверка соответствия пароля пользователя в запросе и пароля в базе данных
     const passwordEquals = await bcrypt.compare(
       userDto.password,
       user.password
@@ -61,6 +63,7 @@ export class AuthService {
     if (user && passwordEquals) {
       return user;
     }
+    // Если пользователь не найден или пароль неверный, выбрасываем исключение
     throw new UnauthorizedException({
       message: "Некорректный email или пароль",
     });
