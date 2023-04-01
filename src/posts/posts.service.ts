@@ -12,27 +12,27 @@ export class PostsService {
     private groupService: GroupsService,
     private imageService: ImagesService
   ) {}
-
+  // Создаем пост, добавляем к нему картинку и группу
   async create(dto: CreatePostDto) {
     const post = await this.postRepository.create(dto);
-    const a = {
+    const addImage = {
       tableName: "post",
       recordId: post.dataValues.id,
     };
-    const c = {
+    const addGroup = {
       postId: post.dataValues.id,
       groupId: dto.groupId,
     };
-    await this.groupService.createPostGroup(c);
-    await this.imageService.updateImage(dto.imageId, a);
+    await this.groupService.createPostGroup(addGroup);
+    await this.imageService.updateImage(dto.imageId, addImage);
     return post;
   }
-
+  // Получаем все посты
   async getAllPosts() {
     const posts = await this.postRepository.findAll({ include: { all: true } });
     return posts;
   }
-
+  // Получаем один пост
   async getPostById(id: any) {
     const post = await this.postRepository.findOne({
       where: { id },
@@ -40,7 +40,7 @@ export class PostsService {
     });
     return post;
   }
-
+  // Редактируем пост
   async updatePost(id: number, dto: CreatePostDto) {
     const updatedPost = await this.postRepository.update(dto, {
       returning: true,
@@ -49,13 +49,13 @@ export class PostsService {
 
     return updatedPost;
   }
-
+  // Удаляем пост
   async deletePost(id: number) {
     const post = await this.postRepository.findOne({ where: { id } });
     await post.destroy();
     return post;
   }
-
+  // Ищем и получаем пост по уникальному названию
   async getUnique(name: string) {
     const unique = await this.postRepository.findOne({
       where: { uniqueName: name },
@@ -63,7 +63,7 @@ export class PostsService {
     });
     return unique;
   }
-
+  // Получем пост по конкреной группе
   async fiendByGroup(groupId: number) {
     return await this.groupService.getPostByGroup(groupId);
   }

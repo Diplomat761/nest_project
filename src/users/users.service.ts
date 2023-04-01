@@ -12,7 +12,7 @@ export class UsersService {
     @InjectModel(User) private userRepository: typeof User,
     private roleServise: RolesService
   ) {}
-
+  // Создаем пользователя
   async createUser(dto: createUserDto) {
     const user = await this.userRepository.create(dto);
     const role = await this.roleServise.getRoleByValue("ADMIN");
@@ -20,12 +20,12 @@ export class UsersService {
     user.roles = [role];
     return user;
   }
-
+  // Получаем всех пользователй
   async getAllUsers() {
     const users = await this.userRepository.findAll({ include: { all: true } });
     return users;
   }
-
+  // Получаем одного пользователя
   async getUserById(id: number) {
     const user = await this.userRepository.findOne({
       where: { id },
@@ -33,7 +33,7 @@ export class UsersService {
     });
     return user;
   }
-
+  // Получаем пользователя по адресу почты
   async getUserByEmail(email: string) {
     const user = await this.userRepository.findOne({
       where: { email },
@@ -41,7 +41,7 @@ export class UsersService {
     });
     return user;
   }
-
+  // Даем роль
   async addRole(dto: AddRoleDto) {
     const user = await this.userRepository.findByPk(dto.userId);
     const role = await this.roleServise.getRoleByValue(dto.value);
@@ -54,7 +54,7 @@ export class UsersService {
       HttpStatus.NOT_FOUND
     );
   }
-
+  // Даем бан
   async ban(dto: BanUserDto) {
     const user = await this.userRepository.findByPk(dto.userId);
     if (!user) {
