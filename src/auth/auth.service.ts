@@ -35,6 +35,13 @@ export class AuthService {
       ...userDto,
       password: hashPassword,
     });
+
+    // const profile = await this.profilesService.createProfile({
+    //   firstName: userDto.firstName,
+    //   lastName: userDto.lastName,
+    //   age: userDto.age,
+    //   phoneNumber: userDto.phoneNumber,
+    // });
     return this.generateToken(user);
   }
 

@@ -11,15 +11,19 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Roles } from "src/auth/roles-auth.decorator";
 import { RolesGuard } from "src/auth/roles.guard";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { PostsService } from "./posts.service";
 
+@ApiTags("Посты")
 @Controller("posts")
 export class PostsController {
   constructor(private postService: PostsService) {}
 
+  @ApiOperation({ summary: "Создание поста" })
+  @ApiResponse({ status: 200, type: Post })
   @Roles("ADMIN")
   @UseGuards(RolesGuard)
   @Post()
