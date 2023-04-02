@@ -25,4 +25,6 @@ export class createProfileDto {
   @IsString()
   @Matches(/^[0-9]{11}$/)
   readonly phoneNumber: string;
+
+  readonly userId: number;
 }

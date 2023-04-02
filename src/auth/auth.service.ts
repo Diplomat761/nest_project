@@ -9,39 +9,47 @@ import { createUserDto } from "src/users/dto/create-user.dto";
 import { UsersService } from "src/users/users.service";
 import * as bcrypt from "bcryptjs";
 import { User } from "src/users/users.model";
+import { ProfilesService } from "src/profiles/profiles.service";
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UsersService,
-    private jwtServise: JwtService
+    private jwtServise: JwtService,
+    private profileService: ProfilesService
   ) {}
   // Входим в аккаунт
   async login(userDto: createUserDto) {
     const user = await this.validateUser(userDto);
     return this.generateToken(user);
   }
-
+  // Регестрируем пользователя
   async registration(userDto: createUserDto) {
+    // Получаем пользователя
     const candidate = await this.userService.getUserByEmail(userDto.email);
+    // Если пользователь уже существует, то выбрасываем исключение с сообщением об ошибке
     if (candidate) {
       throw new HttpException(
         "Такой пользователь уже существует",
         HttpStatus.BAD_REQUEST
       );
     }
+    // Хэшируем пароль и сохраняем
     const hashPassword = await bcrypt.hash(userDto.password, 5);
+    // Создаем нового пользователя,
     const user = await this.userService.createUser({
       ...userDto,
       password: hashPassword,
     });
-
-    // const profile = await this.profilesService.createProfile({
-    //   firstName: userDto.firstName,
-    //   lastName: userDto.lastName,
-    //   age: userDto.age,
-    //   phoneNumber: userDto.phoneNumber,
-    // });
+    // Создаем профиль пользователя,
+    const profile = await this.profileService.createProfile({
+      firstName: userDto.firstName,
+      lastName: userDto.lastName,
+      age: userDto.age,
+      phoneNumber: userDto.phoneNumber,
+      userId: user.dataValues.id,
+    });
+    // Возвращаем токен
     return this.generateToken(user);
   }
   // Генерируем токен
