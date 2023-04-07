@@ -10,6 +10,7 @@ import { UsersService } from "src/users/users.service";
 import * as bcrypt from "bcryptjs";
 import { User } from "src/users/users.model";
 import { ProfilesService } from "src/profiles/profiles.service";
+import { loginUserDto } from "src/users/dto/login-user.dto";
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
     private profileService: ProfilesService
   ) {}
   // Входим в аккаунт
-  async login(userDto: createUserDto) {
+  async login(userDto: loginUserDto) {
     const user = await this.validateUser(userDto);
     return this.generateToken(user);
   }
@@ -60,7 +61,7 @@ export class AuthService {
     };
   }
   // Проверка пользователя по email и паролю
-  private async validateUser(userDto: createUserDto) {
+  private async validateUser(userDto: loginUserDto) {
     // Получение пользователя из базы данных по email
     const user = await this.userService.getUserByEmail(userDto.email);
     // Проверка соответствия пароля пользователя в запросе и пароля в базе данных
