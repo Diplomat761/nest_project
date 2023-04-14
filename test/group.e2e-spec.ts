@@ -1,28 +1,37 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { INestApplication } from "@nestjs/common";
-import * as request from "supertest";
+import { GroupsController } from "src/groups/groups.controller";
+import { GroupsService } from "src/groups/groups.service";
 
-import { GroupsModule } from "../src/groups/groups.module";
-import { getModelToken } from "@nestjs/sequelize";
-import { Group } from "src/groups/groups.model";
+describe("GroupsController", () => {
+  let controller: GroupsController;
 
-describe("GroupController (e2e)", () => {
-  let app: INestApplication;
-  const mockGroupsRepository = {};
+  const mockGroupService = {
+    create: jest.fn((dto) => {
+      return {
+        id: Date.now(),
+        ...dto,
+      };
+    }),
+  };
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [GroupsModule],
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [GroupsController],
+      providers: [GroupsService],
     })
-      .overrideProvider(getModelToken(Group))
-      .useValue(mockGroupsRepository)
+      .overrideProvider(GroupsService)
+      .useValue(mockGroupService)
       .compile();
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
+    controller = module.get<GroupsController>(GroupsController);
   });
-
-  it("/groups (GET)", () => {
-    return request(app.getHttpServer()).get("/groups").expect(200);
+  it("should be def", () => {
+    expect(controller).toBeDefined;
+  });
+  it("create a group", () => {
+    expect(controller.createGroup({ keyword: "test" })).toEqual({
+      id: expect.any(Number),
+      keyword: "test",
+    });
   });
 });
