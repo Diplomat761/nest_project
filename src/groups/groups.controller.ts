@@ -16,7 +16,7 @@ import { GroupsService } from "./groups.service";
 export class GroupsController {
   constructor(private groupService: GroupsService) {}
   @Post()
-  createPost(@Body() dto: CreateGroupsDto) {
+  createGroup(@Body() dto: CreateGroupsDto) {
     return this.groupService.create(dto);
   }
 
@@ -26,7 +26,7 @@ export class GroupsController {
   }
 
   @Get(":id")
-  getOnePost(@Param("id") id: number) {
+  getOneGroup(@Param("id") id: number) {
     return this.groupService.getGroupById(id);
   }
 
